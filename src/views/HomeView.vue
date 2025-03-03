@@ -1,7 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Hero from '@/components/HomeHero.vue'
+import HomeCards from '@/components/HomeCards.vue'
+</script>
 
 <template>
   <main>
-    <p>Home View</p>
+    <Hero />
+    <HomeCards />
   </main>
 </template>
