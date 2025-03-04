@@ -17,6 +17,9 @@ coverage
 /cypress/videos/
 /cypress/screenshots/
 
+# env files (can opt-in for committing if needed)
+.env*
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

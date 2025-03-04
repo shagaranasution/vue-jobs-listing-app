@@ -1,18 +1,16 @@
 <script setup lang="ts">
-import jobsData from '@/jobsData.json'
-import { defineProps, ref } from 'vue'
-import JobListing from './JobListing.vue'
+import { defineProps } from 'vue'
+import JobListing from '@/components/JobListing.vue'
 import { RouterLink } from 'vue-router'
+import type { Job } from '@/types'
 
-defineProps({
-  limit: Number,
-  showButton: {
-    type: Boolean,
-    default: true,
-  },
-})
+type Props = {
+  jobs?: Job[]
+  limit?: number
+  showButton?: boolean
+}
 
-const jobs = ref(jobsData)
+const { jobs = [], limit, showButton = true } = defineProps<Props>()
 </script>
 
 <template>
