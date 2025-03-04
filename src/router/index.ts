@@ -24,6 +24,11 @@ const router = createRouter({
       name: 'jobs-add',
       component: () => import('@/views/JobsAddView.vue'),
     },
+    {
+      path: '/:catchAll(.*)',
+      name: 'not-found',
+      component: () => import('@/views/NotFoundView.vue'),
+    },
   ],
 })
 
