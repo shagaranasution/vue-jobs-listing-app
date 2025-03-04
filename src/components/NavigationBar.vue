@@ -3,7 +3,6 @@ import { RouterLink, useRoute } from 'vue-router'
 import logo from '@/assets/images/logo.png'
 
 function getIsActiveLink(routePath: string): boolean {
-  console.log(useRoute().path === routePath)
   return useRoute().path === routePath
 }
 </script>

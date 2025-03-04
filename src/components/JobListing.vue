@@ -1,11 +1,23 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
+import { defineProps, ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import type { Job } from '@/types'
 
-defineProps<{
+const props = defineProps<{
   job: Job
 }>()
+
+const showFullDescription = ref(false)
+
+const jobDescription = computed(() => {
+  return showFullDescription.value
+    ? props.job.description
+    : props.job.description.substring(0, 90) + '...'
+})
+
+function toggleShowFullDescription() {
+  showFullDescription.value = !showFullDescription.value
+}
 </script>
 
 <template>
@@ -17,7 +29,10 @@ defineProps<{
       </div>
 
       <div class="mb-5">
-        {{ job.description }}
+        <p>{{ jobDescription }}</p>
+        <button @click="toggleShowFullDescription" class="text-green-500 hover:text-green-600 mb-4">
+          {{ showFullDescription ? 'Less' : 'More' }}
+        </button>
       </div>
 
       <h3 class="text-green-500 mb-2">{{ `${job.salary} / Year` }}</h3>
