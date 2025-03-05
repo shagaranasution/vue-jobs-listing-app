@@ -1,5 +1,5 @@
 import { db, JOB_VACANCIES_DOC_TITLE } from '@/firebase.ts'
-import { collection, doc, getDoc, getDocs, addDoc } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, addDoc, deleteDoc } from 'firebase/firestore'
 import type { Job } from '@/types'
 
 const jobsCollection = collection(db, JOB_VACANCIES_DOC_TITLE)
@@ -39,5 +39,14 @@ export async function addJob(newJob: Omit<Job, 'id'>): Promise<string> {
   } catch (error) {
     console.error('Error: ', error)
     throw new Error('Fail to add job')
+  }
+}
+
+export async function deleteJob(id: string) {
+  try {
+    await deleteDoc(doc(db, JOB_VACANCIES_DOC_TITLE, id))
+  } catch (error) {
+    console.error('Error: ', error)
+    throw new Error('Fail to delete data')
   }
 }

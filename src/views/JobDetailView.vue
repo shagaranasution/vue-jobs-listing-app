@@ -1,24 +1,30 @@
 <script setup lang="ts">
 import { reactive, onMounted } from 'vue'
-import { useRoute, RouterLink } from 'vue-router'
+import { useRoute, useRouter, RouterLink } from 'vue-router'
 import type { Job } from '@/types'
-import { getJob } from '@/services/jobService'
+import { deleteJob, getJob } from '@/services/jobService'
 import LoaderSpinner from '@/components/LoaderSpinner.vue'
 import BackButton from '@/components/BackButton.vue'
+import DeleteConfirmationModal from '@/components/DeleteConfirmationModal.vue'
+import { useToast } from 'vue-toastification'
 
 type State = {
   job: Job | null
   isLoading: boolean
   error: string | null
+  shownDeleteConfirmationModal: boolean
 }
 
 const route = useRoute()
+const router = useRouter()
 const jobId = (route.params.id || '') as string
+const toast = useToast()
 
 const state: State = reactive({
   job: null,
   isLoading: true,
   error: null,
+  shownDeleteConfirmationModal: false,
 })
 
 onMounted(async () => {
@@ -31,6 +37,38 @@ onMounted(async () => {
     state.isLoading = false
   }
 })
+
+function openModal() {
+  state.shownDeleteConfirmationModal = true
+}
+
+function closeModal() {
+  state.shownDeleteConfirmationModal = false
+}
+
+async function handleDelete(id: string) {
+  try {
+    state.isLoading = true
+    await deleteJob(id)
+    toast.success('Job deleted successfully')
+    router.push('/jobs')
+  } catch (error) {
+    toast.error((error as Error).message)
+  } finally {
+    state.isLoading = false
+    closeModal()
+  }
+}
+
+function handleConfirm() {
+  const jobId = state.job?.id
+  if (!jobId || state.isLoading) return
+  handleDelete(jobId)
+}
+
+function handleModalCancel() {
+  closeModal()
+}
 </script>
 
 <template>
@@ -103,6 +141,7 @@ onMounted(async () => {
                 >Edit Job</RouterLink
               >
               <button
+                @click="openModal"
                 class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
               >
                 Delete Job
@@ -115,4 +154,9 @@ onMounted(async () => {
 
     <div v-else class="text-center text-gray-500 mt-4">There is no data with given ID.</div>
   </main>
+  <DeleteConfirmationModal
+    :show="state.shownDeleteConfirmationModal"
+    @on-confirm="handleConfirm"
+    @on-cancel="handleModalCancel"
+  />
 </template>
