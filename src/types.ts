@@ -1,7 +1,7 @@
 export interface Job {
   id: string
   title: string
-  type: string
+  type: 'Full-Time' | 'Part-Time' | 'Remote' | 'Internship'
   description: string
   location: string
   salary: string

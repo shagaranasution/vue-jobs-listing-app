@@ -4,6 +4,7 @@ import { useRoute, RouterLink } from 'vue-router'
 import type { Job } from '@/types'
 import { getJob } from '@/services/jobService'
 import LoaderSpinner from '@/components/LoaderSpinner.vue'
+import BackButton from '@/components/BackButton.vue'
 
 type State = {
   job: Job | null
@@ -34,6 +35,8 @@ onMounted(async () => {
 
 <template>
   <main>
+    <BackButton />
+
     <div v-if="state.isLoading" class="my-10">
       <LoaderSpinner />
     </div>
