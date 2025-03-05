@@ -15,13 +15,14 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
 const db = getFirestore(app)
+const JOB_VACANCIES_DOC_TITLE = 'job_vacancies'
 
 // Function to provide firestore collection with data from jobsData.json
 const uploadData = async () => {
   jobs.forEach(async (job) => {
-    await setDoc(doc(collection(db, 'job_vacancies'), job.id.toString()), job)
+    await setDoc(doc(collection(db, JOB_VACANCIES_DOC_TITLE), job.id.toString()), job)
   })
   console.log('Data successfully uploaded!')
 }
 
-export { db, uploadData }
+export { db, uploadData, JOB_VACANCIES_DOC_TITLE }

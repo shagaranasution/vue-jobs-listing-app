@@ -35,7 +35,7 @@ onMounted(async () => {
     <div v-if="state.isLoading" class="my-12">
       <LoaderSpinner />
     </div>
-    <div v-else-if="state.error" class="text-center text-gray-500">
+    <div v-else-if="state.error" class="text-center text-gray-500 mt-4">
       {{ state.error }}
     </div>
     <div v-else>
